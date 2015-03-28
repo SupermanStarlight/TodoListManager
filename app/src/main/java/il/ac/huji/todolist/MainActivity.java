@@ -1,5 +1,6 @@
 package il.ac.huji.todolist;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -23,9 +24,7 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         listView = (ListView) findViewById(R.id.LstTodoItems);
-
          adapter = new TodoAdapter(this,todos);
-
         listView.setAdapter(adapter);
 
     }
@@ -36,14 +35,21 @@ public class MainActivity extends ActionBarActivity {
         return true;
     }
 
+    private void addTODO(){
+
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         input = (EditText) findViewById(R.id.edtNewItem);
 
         if (id == R.id.action_settings) {
-            String newTodo = input.getText().toString();
-            adapter.add(newTodo);
+            Intent intent = new Intent(this,AddNewTodoItemActivity.class);
+            startActivity(intent);
+
+//            String newTodo = input.getText().toString();  ORIGINAL
+//            adapter.add(newTodo);
 
             return true;
         }

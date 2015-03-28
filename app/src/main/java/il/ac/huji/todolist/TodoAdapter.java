@@ -12,10 +12,17 @@ import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import java.util.ArrayList;
 import android.app.Dialog;
+import android.util.Log;
+import 	android.net.Uri;
+import android.content.Intent;
+import android.app.Activity;
+
 
 public class TodoAdapter extends ArrayAdapter<String> {
     private final Context context;
     private  ArrayList<String> values = new ArrayList<String>();
+    private final String call = "Call ";
+    final static String TAG = "myApp";
 
 
     public TodoAdapter(Context context, ArrayList<String> values) {
@@ -49,23 +56,49 @@ public class TodoAdapter extends ArrayAdapter<String> {
         return rowView;
     }
 
-    private void todo_dialog(final int position){
+    /*
+    this is the dialog of long pressing a todo
+     */
+    private void todo_dialog(final int position) {
+        String todoTitle = values.get(position);
         final Dialog dialog = new Dialog(this.context);
         dialog.setContentView(R.layout.dialog_body);
-        dialog.setTitle(values.get(position));
+        dialog.setTitle(todoTitle);
         Button deleteButton = (Button)
                 dialog.findViewById(R.id.menuItemDelete);
-       deleteButton.setOnClickListener(new OnClickListener() {
-           @Override
-           public void onClick(View v) {
-               values.remove(position);
-               notifyDataSetChanged();
-               dialog.dismiss();
-           }
-       });
-//TODO register button listener.
+        deleteButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                values.remove(position);
+                notifyDataSetChanged();
+                dialog.dismiss();
+            }
+        });
         dialog.show();
+
+        Button callButton = (Button) dialog.findViewById(R.id.menuItemCall);
+
+        if (todoTitle.startsWith(call)) {
+            callButton.setText(todoTitle);
+            final String phoneNum = todoTitle.replace(call,"");
+            phoneNum.trim();
+            Log.v(TAG, "this is it"+phoneNum);
+
+
+            callButton.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent dial = new Intent(Intent.ACTION_DIAL);
+                    dial.setData(Uri.parse("tel:" + phoneNum));
+                    context.startActivity(dial);
+                }
+            });
+        }
+        else {
+            callButton.setVisibility(View.INVISIBLE);
+        }
     }
+
 }
 
 
@@ -91,34 +124,3 @@ public class TodoAdapter extends ArrayAdapter<String> {
 
 
 
-
-//import android.widget.ArrayAdapter;
-//import java.util.ArrayList;
-//import android.content.Context;
-//import android.view.LayoutInflater;
-//import android.view.View;
-//import android.view.ViewGroup;
-//import android.widget.ArrayAdapter;
-//import android.widget.TextView;
-//
-//
-///**
-// * Created by Solution on 14/03/2015.
-// */
-//public class TodoAdapter extends ArrayAdapter<String> {
-//
-//    private ArrayList<String> todos;
-//
-//    public TodoAdapter(Context context, int textViewResourceId, ArrayList<String> todos) {
-//        super(context, textViewResourceId, todos);
-//        this.todos = todos;
-//    }
-//
-//    public View getView(int position, View convertView, ViewGroup parent) {
-//        LayoutInflater inflater =
-//                LayoutInflater.from(getContext());
-//        View view = inflater.inflate(R.layout.row);
-//
-//
-//    }
-//}
