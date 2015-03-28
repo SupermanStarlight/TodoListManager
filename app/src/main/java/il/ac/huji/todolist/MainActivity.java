@@ -7,7 +7,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
 import android.widget.EditText;
+import android.widget.DatePicker;
 import java.util.ArrayList;
+import android.widget.Button;
+
 
 
 public class MainActivity extends ActionBarActivity {
@@ -15,7 +18,7 @@ public class MainActivity extends ActionBarActivity {
     EditText input;
     ArrayList<String> todos = new ArrayList<String>();
     TodoAdapter adapter;
-
+    DatePicker dueDate;
 
 
 
@@ -36,7 +39,22 @@ public class MainActivity extends ActionBarActivity {
     }
 
     private void addTODO(){
+        Intent intent = new Intent(this,AddNewTodoItemActivity.class);
+        //startActivity(intent);
+        startActivityForResult(intent, 1);
+    }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode==1){
+            if(data != null) {
+                String newTodo = data.getStringExtra("title");
+                String date = data.getStringExtra("Date");
+                adapter.add(newTodo + "  " + date);
+            }
+
+        }
     }
 
     @Override
@@ -45,12 +63,10 @@ public class MainActivity extends ActionBarActivity {
         input = (EditText) findViewById(R.id.edtNewItem);
 
         if (id == R.id.action_settings) {
-            Intent intent = new Intent(this,AddNewTodoItemActivity.class);
-            startActivity(intent);
+           addTODO();
 
-//            String newTodo = input.getText().toString();  ORIGINAL
+//            String newTodo = input.getText().toString();  //ORIGINAL
 //            adapter.add(newTodo);
-
             return true;
         }
 
