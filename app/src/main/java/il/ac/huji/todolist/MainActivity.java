@@ -3,6 +3,7 @@ package il.ac.huji.todolist;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
@@ -18,7 +19,7 @@ import android.widget.Button;
 public class MainActivity extends ActionBarActivity {
     ListView listView;
     EditText input;
-    ArrayList<String> todos = new ArrayList<String>();
+    ArrayList<TodoItem> todos = new ArrayList<TodoItem>();
     TodoAdapter adapter;
     DatePicker dueDate;
     ArrayList<Date> dueDateArray = new ArrayList<Date>();
@@ -31,7 +32,7 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         listView = (ListView) findViewById(R.id.LstTodoItems);
-         adapter = new TodoAdapter(this,todos,dueDateArray);
+         adapter = new TodoAdapter(this,todos);
         listView.setAdapter(adapter);
 
     }
@@ -54,10 +55,9 @@ public class MainActivity extends ActionBarActivity {
         if (requestCode==1){
             if(data != null) {
                 String newTodo = data.getStringExtra("title");
-                //String date = data.getStringExtra("Date");
                 Date dueDate = new Date(data.getLongExtra("dueDate",-1));
-                
-                adapter.add(newTodo);
+
+                adapter.add(new TodoItem(dueDate,newTodo));
 
             }
 
@@ -72,8 +72,6 @@ public class MainActivity extends ActionBarActivity {
         if (id == R.id.action_settings) {
            addTODO();
 
-//            String newTodo = input.getText().toString();  //ORIGINAL
-//            adapter.add(newTodo);
             return true;
         }
 

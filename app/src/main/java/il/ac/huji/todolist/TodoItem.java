@@ -19,14 +19,27 @@ public class TodoItem {
 
     public String getDateAsString(){
         int year = date.getYear();
-        int month = date.getMonth();
-        int day = date.getDay();
+        int month = date.getMonth()+1;
+        int day = date.getDate();
         return day+"/"+month+"/"+year;
 
     }
 
     public String getTitle(){
         return title;
+    }
+
+    public boolean isItemOverdue(){
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+        Date todayDate = new Date(year,month,day);
+        if(this.date.before(todayDate)){
+            return true;
+        }
+        else return false;
+
     }
 }
 

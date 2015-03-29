@@ -21,19 +21,18 @@ import android.app.Activity;
 
 
 
-public class TodoAdapter extends ArrayAdapter<String> {
+public class TodoAdapter extends ArrayAdapter<TodoItem> {
     private final Context context;
-    private  ArrayList<String> values = new ArrayList<String>();
+    private  ArrayList<TodoItem> values = new ArrayList<TodoItem>();
     private final String call = "Call ";
     final static String TAG = "myApp";
     private ArrayList<Date> dueDateValues = new ArrayList<Date>();
 
 
-    public TodoAdapter(Context context, ArrayList<String> values,ArrayList<Date> dueDate) {
+    public TodoAdapter(Context context, ArrayList<TodoItem> values) {
         super(context, 0, values);
         this.context = context;
         this.values = values;
-        this.dueDateValues = dueDate;
 
     }
 
@@ -44,9 +43,9 @@ public class TodoAdapter extends ArrayAdapter<String> {
         View rowView = inflater.inflate(R.layout.row, parent, false);
         TextView textView = (TextView) rowView.findViewById(R.id.textView);
         TextView dateView = (TextView) rowView.findViewById(R.id.dateView);
-        textView.setText(values.get(position));
-        dateView.setText(dueDateValues.get(position).toString());
-        if(position%2==0){
+        textView.setText(values.get(position).getTitle());
+        dateView.setText(values.get(position).getDateAsString());
+        if(values.get(position).isItemOverdue()){
             textView.setTextColor(Color.RED);
         }
         else {
@@ -67,7 +66,7 @@ public class TodoAdapter extends ArrayAdapter<String> {
     this is the dialog of long pressing a todo
      */
     private void todo_dialog(final int position) {
-        String todoTitle = values.get(position);
+        String todoTitle = values.get(position).getTitle();
         final Dialog dialog = new Dialog(this.context);
         dialog.setContentView(R.layout.dialog_body);
         dialog.setTitle(todoTitle);

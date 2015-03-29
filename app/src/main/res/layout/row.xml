@@ -9,14 +9,21 @@
         android:layout_width="199dp"
         android:layout_height="45dp"
         android:text="New Text"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+
         android:id="@+id/textView"
-        android:layout_weight="0.82" />
+        android:layout_weight="0.98" />
+
+
 
     <TextView
-        android:layout_width="111dp"
+        android:layout_width="100dp"
         android:layout_height="46dp"
         android:text="No due date"
-        android:id="@+id/dateView" />
+        android:textAppearance="?android:attr/textAppearanceMedium"
+
+        android:id="@+id/dateView"
+        android:layout_weight="0.42" />
 
 
 </LinearLayout>
