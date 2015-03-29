@@ -59,8 +59,12 @@ public class AddNewTodoItemActivity extends Activity {
                 String dayeSTR = String.valueOf(dueDay);
                 dueMonth =dueDate.getMonth();
                 dueYear = dueDate.getYear();
-                responseIntent.putExtra("Date",dayeSTR);
-
+                //Calendar dueDateObj = Calendar.getInstance();
+                //dueDateObj.set(dueYear+1900,dueMonth,dueDay);
+                 Date dueDateObjToSend = new Date(dueYear,dueMonth,dueDay);
+                //responseIntent.putExtra("Date",dayeSTR);
+                responseIntent.putExtra("dueDate",dueDateObjToSend.getTime());
+                //
 
                 setResult(1, responseIntent);
 

@@ -11,6 +11,8 @@ import android.widget.TextView;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import java.util.ArrayList;
+import java.util.Date;
+
 import android.app.Dialog;
 import android.util.Log;
 import 	android.net.Uri;
@@ -18,17 +20,20 @@ import android.content.Intent;
 import android.app.Activity;
 
 
+
 public class TodoAdapter extends ArrayAdapter<String> {
     private final Context context;
     private  ArrayList<String> values = new ArrayList<String>();
     private final String call = "Call ";
     final static String TAG = "myApp";
+    private ArrayList<Date> dueDateValues = new ArrayList<Date>();
 
 
-    public TodoAdapter(Context context, ArrayList<String> values) {
+    public TodoAdapter(Context context, ArrayList<String> values,ArrayList<Date> dueDate) {
         super(context, 0, values);
         this.context = context;
         this.values = values;
+        this.dueDateValues = dueDate;
 
     }
 
@@ -38,7 +43,9 @@ public class TodoAdapter extends ArrayAdapter<String> {
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View rowView = inflater.inflate(R.layout.row, parent, false);
         TextView textView = (TextView) rowView.findViewById(R.id.textView);
+        TextView dateView = (TextView) rowView.findViewById(R.id.dateView);
         textView.setText(values.get(position));
+        dateView.setText(dueDateValues.get(position).toString());
         if(position%2==0){
             textView.setTextColor(Color.RED);
         }

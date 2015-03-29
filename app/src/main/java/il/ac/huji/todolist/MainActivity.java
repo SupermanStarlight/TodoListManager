@@ -9,6 +9,8 @@ import android.widget.ListView;
 import android.widget.EditText;
 import android.widget.DatePicker;
 import java.util.ArrayList;
+import java.util.Date;
+
 import android.widget.Button;
 
 
@@ -19,6 +21,8 @@ public class MainActivity extends ActionBarActivity {
     ArrayList<String> todos = new ArrayList<String>();
     TodoAdapter adapter;
     DatePicker dueDate;
+    ArrayList<Date> dueDateArray = new ArrayList<Date>();
+
 
 
 
@@ -27,7 +31,7 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         listView = (ListView) findViewById(R.id.LstTodoItems);
-         adapter = new TodoAdapter(this,todos);
+         adapter = new TodoAdapter(this,todos,dueDateArray);
         listView.setAdapter(adapter);
 
     }
@@ -50,8 +54,11 @@ public class MainActivity extends ActionBarActivity {
         if (requestCode==1){
             if(data != null) {
                 String newTodo = data.getStringExtra("title");
-                String date = data.getStringExtra("Date");
-                adapter.add(newTodo + "  " + date);
+                //String date = data.getStringExtra("Date");
+                Date dueDate = new Date(data.getLongExtra("dueDate",-1));
+                
+                adapter.add(newTodo);
+
             }
 
         }
