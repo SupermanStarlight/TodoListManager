@@ -11,10 +11,18 @@ public class TodoItem {
     private Calendar calendar;
     private String title;
 
+    public int getId() {
+        return id;
+    }
+
+    private int id;
+
 
     public TodoItem(Date date, String title) {
         this.date = date;
         this.title = title;
+        this.id =(int) (System.currentTimeMillis() & 0xfffffff);
+
     }
 
     public String getDateAsString(){
@@ -24,9 +32,15 @@ public class TodoItem {
         return day+"/"+month+"/"+year;
 
     }
-
+    public void setId(int id){
+        this.id=id;
+    }
     public String getTitle(){
         return title;
+    }
+
+    public long getDateAsLong(){
+        return date.getTime();
     }
 
     public boolean isItemOverdue(){

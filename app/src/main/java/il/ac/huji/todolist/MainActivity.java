@@ -12,6 +12,7 @@ import android.widget.DatePicker;
 import java.util.ArrayList;
 import java.util.Date;
 
+
 import android.widget.Button;
 
 
@@ -23,6 +24,7 @@ public class MainActivity extends ActionBarActivity {
     TodoAdapter adapter;
     DatePicker dueDate;
     ArrayList<Date> dueDateArray = new ArrayList<Date>();
+    static DatabaseHandler db;
 
 
 
@@ -30,9 +32,11 @@ public class MainActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        db = new DatabaseHandler(this);
+        todos = db.getAllTodos();
         setContentView(R.layout.activity_main);
         listView = (ListView) findViewById(R.id.LstTodoItems);
-         adapter = new TodoAdapter(this,todos);
+        adapter = new TodoAdapter(this,todos);
         listView.setAdapter(adapter);
 
     }
@@ -56,8 +60,10 @@ public class MainActivity extends ActionBarActivity {
             if(data != null) {
                 String newTodo = data.getStringExtra("title");
                 Date dueDate = new Date(data.getLongExtra("dueDate",-1));
+                TodoItem newTodoItem = new TodoItem(dueDate,newTodo);
+                adapter.add(newTodoItem);
+                db.addTodo(newTodoItem);
 
-                adapter.add(new TodoItem(dueDate,newTodo));
 
             }
 

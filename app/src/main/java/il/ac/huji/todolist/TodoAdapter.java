@@ -75,6 +75,7 @@ public class TodoAdapter extends ArrayAdapter<TodoItem> {
         deleteButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
+                MainActivity.db.deleteTodo(values.get(position));
                 values.remove(position);
                 notifyDataSetChanged();
                 dialog.dismiss();
